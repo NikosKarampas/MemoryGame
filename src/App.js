@@ -24,12 +24,18 @@ function App() {
       .sort(() => Math.random() - 0.5)
       .map((card) => ({ ...card, id: Math.random() }));
 
+      setChoiceOne(null);
+      setChoiceTwo(null);
+
       setCards(shuffleCards);
       setTurns(0);
   }
 
   // handle a choice
   const handleChoice = (card) => {
+    // Stop the user from being able to click the first card twice
+    if (card.id === choiceOne?.id) return;
+
     choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
   }
 
@@ -63,9 +69,14 @@ function App() {
     setDisabled(false);
   }
 
+  // start a game automatically
+  useEffect(() => {
+    shuffleCards();
+  }, [])
+
   return (
     <div className="App">
-      <h1>Magic Match</h1>
+      <h1>The Elden Ring matching card game</h1>
       <button onClick={shuffleCards}>New Game</button>
 
       <div className="card-grid">
@@ -79,6 +90,7 @@ function App() {
           />                          
         ))}
       </div>
+      <p>Turns: { turns }</p>
     </div>
   );
 }
