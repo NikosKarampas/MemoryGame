@@ -46,10 +46,10 @@ function App() {
               return card;
           })
         });
+        resetTurn()
       }
-      else
-        console.log("different cards");
-      resetTurn();
+      else        
+        setTimeout(() => resetTurn(), 1000);
     }
   }, [choiceOne, choiceTwo]);
 
@@ -65,12 +65,13 @@ function App() {
       <h1>Magic Match</h1>
       <button onClick={shuffleCards}>New Game</button>
 
-      <div className="card-grid"> 
+      <div className="card-grid">
         { cards.map(card => (
           <SingleCard 
             key={ card.id } 
             card={card} 
             handleChoice={handleChoice}
+            flipped={ card === choiceOne || card === choiceTwo || card.matched }
           />                          
         ))}
       </div>
